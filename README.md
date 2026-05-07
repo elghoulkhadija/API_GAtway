@@ -101,12 +101,17 @@ cd API_Gateway
 Créer un fichier `.env` dans `services/` :
 ```env
 MONGO_URI=mongodb://localhost:27017/gestion_produits
+PORT=5000
 PORT_PRODUCTS=5002
 PORT_ORDERS=5001
 ```
 
 ### 4. Démarrer les services
 ```bash
+
+# Service Principale (port 5000)
+nodemon gateway/index.js
+
 # Service Products (port 5002)
 nodemon services/products/index.js
 
