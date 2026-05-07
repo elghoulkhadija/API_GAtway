@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Produits</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold text-gray-800">🛍️ Liste des Produits</h1>
+      <a href="/products/add"
+         class="bg-green-500 hover:bg-green-600 text-white font-semibold px-5 py-2 rounded-lg transition">
+        + Ajouter un produit
+      </a>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow overflow-hidden">
+      <table class="w-full text-sm text-left">
+        <thead class="bg-green-500 text-white text-base">
+          <tr>
+            <th class="px-6 py-4">Produit</th>
+            <th class="px-6 py-4">Prix</th>
+            <th class="px-6 py-4">Description</th>
+            <th class="px-6 py-4">Quantité</th>
+            <th class="px-6 py-4">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <% products.forEach(product => { %>
+          <tr class="hover:bg-gray-50 transition">
+            <td class="px-6 py-4 font-semibold text-gray-800"><%= product.name %></td>
+            <td class="px-6 py-4 text-gray-700"><%= product.price %> DH</td>
+            <td class="px-6 py-4 text-gray-500 italic"><%= product.description %></td>
+            <td class="px-6 py-4"><%= product.quantity %></td>
+            <td class="px-6 py-4">
+              <div class="flex items-center gap-2">
+
+                <a href="/products/edit/<%= product._id %>"
+                   class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-lg text-sm">
+                  ✏️ Modifier
+                </a>
+
+                <% if (product.orderId) { %>
+                  <a href="/orders/edit/<%= product.orderId %>"
+                     class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1.5 rounded-lg text-sm">
+                    📦 Modifier cmd
+                  </a>
+                  <form action="/orders/<%= product.orderId %>?_method=DELETE" method="POST">
+                    <button type="submit"
+                            onclick="return confirm('Supprimer cette commande ?')"
+                            class="bg-orange-400 hover:bg-orange-500 text-white px-3 py-1.5 rounded-lg text-sm">
+                      🗑️ Supprimer cmd
+                    </button>
+                  </form>
+                <% } else { %>
+                  <a href="/orders/create?product=<%= product._id %>"
+                     class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1.5 rounded-lg text-sm">
+                    📦 Ajouter cmd
+                  </a>
+                <% } %>
+
+                <form action="/products/<%= product._id %>?_method=DELETE" method="POST">
+                  <button type="submit"
+                          onclick="return confirm('Supprimer ce produit ?')"
+                          class="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm">
+                    🗑️ Supprimer
+                  </button>
+                </form>
+
+              </div>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
